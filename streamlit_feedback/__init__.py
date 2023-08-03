@@ -85,7 +85,7 @@ if not _RELEASE:
 
         if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
             feedback = streamlit_feedback(
-                feedback_type="faces", optional_text_label='None', align="flex-end", key=n
+                feedback_type="thumbs", align="flex-start", key=f"feedback_{int(n/2)}"
             )
             if feedback:
                 st.write(feedback)
