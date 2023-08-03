@@ -24,7 +24,7 @@ def streamlit_feedback(feedback_type, optional_text_label=None, align="flex-end"
     Parameters
     ----------
     feedback_type: str
-        The type of feedback ["thumbs", "faces", "text"]
+        The type of feedback ["thumbs", "faces"]
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
@@ -42,7 +42,10 @@ def streamlit_feedback(feedback_type, optional_text_label=None, align="flex-end"
 
     """
 
-    # TODO: validate all user inputs
+    if feedback_type not in ["thumbs", "faces"]:
+        raise NotImplementedError(f"feedback_type='{feedback_type}' not implemented. Please select either 'thumbs' or 'faces'.")
+    if align not in ["flex-end", "center", "flex-start"]:
+        raise NotImplementedError(f"align='{align}' not implemented. Please select either 'flex-end', 'center' or 'flex-start'.")
 
     # "default" is a special argument that specifies the initial return
     # value of the component before the user has interacted with it.
@@ -62,20 +65,8 @@ if not _RELEASE:
         st.session_state["messages"] = [
             {"role": "assistant", "content": "How can I help you?"},
             {"role": "user", "content": "Tell me a joke"},
-            {"role": "assistant", "content": "Why did the chicken?"},
-            {"role": "user", "content": "Nice"},
-            {"role": "assistant", "content": "Thanks"},
+            {"role": "assistant", "content": "Why did the chicken cross the road? To get to the other side!"},
         ]
-
-    for n, msg in enumerate(st.session_state.messages):
-        st.chat_message(msg["role"]).write(msg["content"])
-
-        if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
-            feedback = streamlit_feedback(
-                feedback_type="faces", optional_text_label=None, align="flex-end", key=n
-            )
-            if feedback:
-                st.write(feedback)
 
     if prompt := st.chat_input():
         if not openai_api_key:
@@ -88,6 +79,13 @@ if not _RELEASE:
         response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
         msg = response.choices[0].message
         st.session_state.messages.append(msg)
-        st.chat_message("assistant").write(msg.content)
 
-        # st.session_state["feedback"] = streamlit_feedback("thumbs", "[Optional] Please provide an explanation")
+    for n, msg in enumerate(st.session_state.messages):
+        st.chat_message(msg["role"]).write(msg["content"])
+
+        if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
+            feedback = streamlit_feedback(
+                feedback_type="faces", optional_text_label='None', align="flex-end", key=n
+            )
+            if feedback:
+                st.write(feedback)
