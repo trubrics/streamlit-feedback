@@ -31,7 +31,7 @@ export function FacesFeedback(props) {
                 return "transparent"
             }
         } else {
-            return "grey"
+            return colors["grey"]
         }
     }
 

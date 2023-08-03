@@ -78,8 +78,6 @@ export function ThumbsWithQualiFeedback(props) {
         props.submitFeedback(thumbScore, inputText);
     };
 
-    console.log(submitted ? "yeh" : "hello")
-
     return (
         <Box paddingY={0.5}>
             <Stack direction="row" spacing={1} justifyContent={props.align}>
