@@ -5,8 +5,8 @@ import Stack from '@mui/material/Stack';
 
 const colors = {
     colorGrey: "#c7d1d3",
-    colorUp: "green",
-    colorDown: "red"
+    colorUp: "#4caf50",
+    colorDown: "#f44336"
 }
 
 export function ThumbsFeedback(props) {
@@ -17,10 +17,10 @@ export function ThumbsFeedback(props) {
     let thumbDownColor = colors["colorGrey"];
     let thumbHoverDownColor = colors["colorDown"];
     if (thumbScore) {
-        thumbUpColor = thumbScore === "up" ? colors["colorUp"] : "transparent"
-        thumbHoverUpColor = thumbScore === "up" ? colors["colorUp"] : "transparent"
-        thumbDownColor = thumbScore === "down" ? colors["colorDown"] : "transparent"
-        thumbHoverDownColor = thumbScore === "down" ? colors["colorDown"] : "transparent"
+        thumbUpColor = thumbScore === "👍" ? colors["colorUp"] : "transparent"
+        thumbHoverUpColor = thumbScore === "👍" ? colors["colorUp"] : "transparent"
+        thumbDownColor = thumbScore === "👎" ? colors["colorDown"] : "transparent"
+        thumbHoverDownColor = thumbScore === "👎" ? colors["colorDown"] : "transparent"
     }
 
     const handleThumbClick = (score) => {
@@ -38,7 +38,7 @@ export function ThumbsFeedback(props) {
                     cursor: thumbScore !== null ? null : "pointer",
                     color: thumbHoverUpColor,
                 }, }}
-            onClick={() => thumbScore !== null ? {} : handleThumbClick("up")}
+            onClick={() => thumbScore !== null ? {} : handleThumbClick("👍")}
             />
             <ThumbDownOffAltIcon
             sx={{
@@ -48,7 +48,7 @@ export function ThumbsFeedback(props) {
                     cursor: thumbScore !== null ? null : "pointer",
                     color: thumbHoverDownColor,
             }, }}
-            onClick={() => thumbScore !== null ? {} : handleThumbClick("down")}
+            onClick={() => thumbScore !== null ? {} : handleThumbClick("👎")}
             />
         </Stack>
     )

@@ -5,13 +5,12 @@ import InputBase from '@mui/material/InputBase';
 import { styled } from '@mui/system';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import FormControl from '@mui/material/FormControl';
 import { Box } from "@mui/material";
 
 const colors = {
     colorGrey: "#c7d1d3",
-    colorUp: "green",
-    colorDown: "red"
+    colorUp: "#4caf50",
+    colorDown: "#f44336"
 }
 
 const StyledCustomInput = styled(InputBase)(
@@ -37,12 +36,12 @@ export function ThumbsWithQualiFeedback(props) {
     let thumbHoverUpColor;
     let thumbDownColor;
     let thumbHoverDownColor;
-    if (thumbScore === "up") {
+    if (thumbScore === "👍") {
         thumbUpColor = colors["colorUp"]
         thumbHoverUpColor = colors["colorUp"]
         thumbDownColor = submitted ? "transparent" : colors["colorGrey"]
         thumbHoverDownColor = submitted ? "transparent" : colors["colorDown"]
-    } else if (thumbScore === "down") {
+    } else if (thumbScore === "👎") {
         thumbUpColor = submitted ? "transparent" : colors["colorGrey"]
         thumbHoverUpColor = submitted ? "transparent" : colors["colorUp"]
         thumbDownColor = colors["colorDown"]
@@ -55,10 +54,10 @@ export function ThumbsWithQualiFeedback(props) {
     }
 
     if (submitted) {
-        thumbUpColor = thumbScore === "up" ? colors["colorUp"] : "transparent"
-        thumbHoverUpColor = thumbScore === "up" ? colors["colorUp"] : "transparent"
-        thumbDownColor = thumbScore === "down" ? colors["colorDown"] : "transparent"
-        thumbHoverDownColor = thumbScore === "down" ? colors["colorDown"] : "transparent"
+        thumbUpColor = thumbScore === "👍" ? colors["colorUp"] : "transparent"
+        thumbHoverUpColor = thumbScore === "👍" ? colors["colorUp"] : "transparent"
+        thumbDownColor = thumbScore === "👎" ? colors["colorDown"] : "transparent"
+        thumbHoverDownColor = thumbScore === "👎" ? colors["colorDown"] : "transparent"
     }
 
 
@@ -92,7 +91,7 @@ export function ThumbsWithQualiFeedback(props) {
                         cursor: submitted ? null : "pointer",
                         color: thumbHoverUpColor,
                     }, }}
-                onClick={() => submitted ? {} : handleThumbClick("up")}
+                onClick={() => submitted ? {} : handleThumbClick("👍")}
                 />
                 <ThumbDownOffAltIcon
                 sx={{
@@ -102,10 +101,10 @@ export function ThumbsWithQualiFeedback(props) {
                         cursor: submitted ? null : "pointer",
                         color: thumbHoverDownColor,
                 }, }}
-                onClick={() => submitted ? {} : handleThumbClick("down")}
+                onClick={() => submitted ? {} : handleThumbClick("👎")}
                 />
-                {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "up" ? colors["colorUp"] : colors["colorDown"]}/> : null}
-                {submitted === false && thumbScore !== null ? <Button sx={{color: thumbScore === "up" ? colors["colorUp"] : colors["colorDown"]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
+                {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}/> : null}
+                {submitted === false && thumbScore !== null ? <Button sx={{color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
             </Stack>
         </Box>
         )
