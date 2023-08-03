@@ -1,0 +1,7 @@
+venv/
+streamlit_feedback/frontend/node_modules
+streamlit_feedback/frontend/build
+*.egg-info/
+build/
+dist/
+.streamlit/secrets.toml

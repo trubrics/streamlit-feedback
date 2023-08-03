@@ -1,0 +1,4 @@
+streamlit
+twine
+setuptools
+wheel
