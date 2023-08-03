@@ -1,6 +1,6 @@
 # streamlit-feedback
 
-Streamlit component that allows you to collect user feedback in your apps
+Streamlit component that allows you to collect user feedback in your apps.
 
 ## Install
 

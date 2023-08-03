@@ -39,7 +39,6 @@ export function FacesWithQualiFeedback(props) {
     const [faceScore, setFaceScore] = useState(null);
 
     const handleFaceClick = (score) => {
-        console.log(score, faceScore)
         if (score === faceScore) {
             setFaceScore(null);
         } else {
