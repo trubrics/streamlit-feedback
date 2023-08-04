@@ -62,9 +62,7 @@ export function ThumbsWithQualiFeedback(props) {
 
 
     const handleThumbClick = (score) => {
-        if (score === thumbScore) {
-            setThumbScore(null);
-        } else {
+        if (score !== thumbScore) {
             setThumbScore(score);
         }
     };
@@ -74,8 +72,12 @@ export function ThumbsWithQualiFeedback(props) {
     };
 
     const handleSubmission = () => {
-        setSubmitted(true);
         props.submitFeedback(thumbScore, inputText);
+        if (props.singleSubmit === false) {
+            setThumbScore(null);
+        } else {
+            setSubmitted(true);
+        }
     };
 
     return (

@@ -83,7 +83,11 @@ export function FacesWithQualiFeedback(props) {
     };
 
     const handleSubmission = () => {
-        setSubmitted(true);
+        if (props.singleSubmit === false) {
+            setFaceScore(null);
+        } else {
+            setSubmitted(true);
+        }
         props.submitFeedback(faceScore, inputText);
     };
 

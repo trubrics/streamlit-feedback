@@ -19,7 +19,9 @@ export function FacesFeedback(props) {
     const [faceScore, setFaceScore] = useState(null);
 
     const handleFaceClick = (score) => {
-        setFaceScore(score);
+        if (props.singleSubmit) {
+            setFaceScore(score);
+        }
         props.submitFeedback(score, null);
     };
 

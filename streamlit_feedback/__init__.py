@@ -18,7 +18,7 @@ else:
     _component_func = components.declare_component("streamlit_feedback", path=build_dir)
 
 
-def streamlit_feedback(feedback_type, optional_text_label=None, align="flex-end", key=None):
+def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=True, align="flex-end", key=None):
     """Create a new instance of "streamlit_feedback".
 
     Parameters
@@ -28,6 +28,8 @@ def streamlit_feedback(feedback_type, optional_text_label=None, align="flex-end"
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
+    single_submit: bool
+        Disables re-submission. This prevents users re-submitting feedback for a given prediction e.g. for a chatbot.
     align: str
         Where to align the feedback component ["flex-end", "center", "flex-start"]
     key: str or None
@@ -49,7 +51,14 @@ def streamlit_feedback(feedback_type, optional_text_label=None, align="flex-end"
 
     # "default" is a special argument that specifies the initial return
     # value of the component before the user has interacted with it.
-    component_value = _component_func(feedback_type=feedback_type, optional_text_label=optional_text_label, align=align, key=key, default=None)
+    component_value = _component_func(
+        feedback_type=feedback_type,
+        optional_text_label=optional_text_label,
+        single_submit=single_submit,
+        align=align,
+        key=key,
+        default=None
+    )
 
     return component_value
 
@@ -85,7 +94,11 @@ if not _RELEASE:
 
         if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
             feedback = streamlit_feedback(
-                feedback_type="thumbs", align="flex-start", key=f"feedback_{int(n/2)}"
+                feedback_type="faces",
+                optional_text_label="Please provide some text",
+                single_submit=False,
+                align="flex-end",
+                key=f"feedback_{int(n/2)}"
             )
             if feedback:
                 st.write(feedback)

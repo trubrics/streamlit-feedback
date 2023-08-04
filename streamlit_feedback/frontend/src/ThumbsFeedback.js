@@ -24,7 +24,9 @@ export function ThumbsFeedback(props) {
     }
 
     const handleThumbClick = (score) => {
-        setThumbScore(score);
+        if (props.singleSubmit) {
+            setThumbScore(score);
+        }
         props.submitFeedback(score, null);
     };
 

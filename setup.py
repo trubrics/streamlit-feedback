@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="streamlit-feedback",
-    version="0.0.1",
+    version="0.0.4",
     author="Jeff Kayne",
     author_email="jeff.kayne@trubrics.com",
     description="Streamlit component that allows you to collect user feedback in your apps",
