@@ -75,6 +75,7 @@ export function ThumbsWithQualiFeedback(props) {
         props.submitFeedback(thumbScore, inputText);
         if (props.singleSubmit === false) {
             setThumbScore(null);
+            setInputText(null);
         } else {
             setSubmitted(true);
         }
