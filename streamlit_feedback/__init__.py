@@ -100,7 +100,7 @@ if not _RELEASE:
 
         if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
             feedback = streamlit_feedback(
-                feedback_type="faces",
+                feedback_type="thumbs",
                 optional_text_label="Please provide some text",
                 single_submit=False,
                 align="flex-end",

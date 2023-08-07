@@ -62,7 +62,9 @@ export function ThumbsWithQualiFeedback(props) {
 
 
     const handleThumbClick = (score) => {
-        if (score !== thumbScore) {
+        if (score === thumbScore) {
+            setThumbScore(null);
+        } else {
             setThumbScore(score);
         }
     };
