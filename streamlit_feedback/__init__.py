@@ -61,7 +61,7 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
         single_submit=single_submit,
         align=align,
         key=key,
-        default={"_submit_value": 0}
+        default={"_submit_value": st.session_state["_feedback_submit_value"]}
     )
 
     # only return value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.

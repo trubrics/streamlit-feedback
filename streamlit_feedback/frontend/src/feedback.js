@@ -6,7 +6,7 @@ import { FacesWithQualiFeedback } from "./FacesWithQualiFeedback";
 import { Streamlit } from "streamlit-component-lib"
 
 export function Feedback(props) {
-    const [submitValue, setSubmitValue] = useState(1);
+    const [submitValue, setSubmitValue] = useState(props.default["_submit_value"] + 1);
     const submitFeedback = (score, text) => {
         Streamlit.setComponentValue({type: props.feedbackType, score, text, _submit_value: submitValue});
         setSubmitValue(submitValue + 1)
