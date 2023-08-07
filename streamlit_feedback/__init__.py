@@ -1,5 +1,6 @@
 import os
 import streamlit.components.v1 as components
+import streamlit as st
 
 # Create a _RELEASE constant. We'll set this to False while we're developing
 # the component, and True when we're ready to package and distribute it.
@@ -49,6 +50,9 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
     if align not in ["flex-end", "center", "flex-start"]:
         raise NotImplementedError(f"align='{align}' not implemented. Please select either 'flex-end', 'center' or 'flex-start'.")
 
+    if "_feedback_submit_value" not in st.session_state:
+        st.session_state["_feedback_submit_value"] = 0
+
     # "default" is a special argument that specifies the initial return
     # value of the component before the user has interacted with it.
     component_value = _component_func(
@@ -57,14 +61,16 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
         single_submit=single_submit,
         align=align,
         key=key,
-        default=None
+        default={"_submit_value": 0}
     )
 
-    return component_value
+    # only return value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.
+    if component_value["_submit_value"] == st.session_state["_feedback_submit_value"] + 1:
+        st.session_state["_feedback_submit_value"] = component_value.pop("_submit_value")
+        return component_value
 
 if not _RELEASE:
     import openai
-    import streamlit as st
 
     with st.sidebar:
         openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password", value=st.secrets.get("OPENAI_API_KEY"))
