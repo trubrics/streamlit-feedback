@@ -16,7 +16,7 @@ pip install streamlit-feedback
     - [LLM Completion](https://trubrics-llm-example.streamlit.app/): An LLM app that queries OpenAI's API and allows users to leave feedback on single text generations.
     - [Titanic](https://trubrics-titanic-example.streamlit.app/): An app that allows users to give feedback on a classifier that predicts whether passengers will survive the titanic.
 
-- *Add your cool example apps here!*
+- *Raise a PR with your cool feedback example here!*
 
 ## Usage
 
