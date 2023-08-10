@@ -1,6 +1,7 @@
 import os
-import streamlit.components.v1 as components
+
 import streamlit as st
+import streamlit.components.v1 as components
 
 # Create a _RELEASE constant. We'll set this to False while we're developing
 # the component, and True when we're ready to package and distribute it.
@@ -9,7 +10,9 @@ import streamlit as st
 _RELEASE = False
 
 if not _RELEASE:
-    _component_func = components.declare_component("streamlit_feedback", url="http://localhost:3001")
+    _component_func = components.declare_component(
+        "streamlit_feedback", url="http://localhost:3001"
+    )
 else:
     # When we're distributing a production version of the component, we'll
     # replace the `url` param with `path`, and point it to to the component's
@@ -19,7 +22,13 @@ else:
     _component_func = components.declare_component("streamlit_feedback", path=build_dir)
 
 
-def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=True, align="flex-end", key=None):
+def streamlit_feedback(
+    feedback_type,
+    optional_text_label=None,
+    single_submit=True,
+    align="flex-end",
+    key=None,
+):
     """Create a new instance of "streamlit_feedback".
 
     Parameters
@@ -46,9 +55,15 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
     """
 
     if feedback_type not in ["thumbs", "faces"]:
-        raise NotImplementedError(f"feedback_type='{feedback_type}' not implemented. Please select either 'thumbs' or 'faces'.")
+        raise NotImplementedError(
+            f"feedback_type='{feedback_type}' not implemented. Please select either"
+            " 'thumbs' or 'faces'."
+        )
     if align not in ["flex-end", "center", "flex-start"]:
-        raise NotImplementedError(f"align='{align}' not implemented. Please select either 'flex-end', 'center' or 'flex-start'.")
+        raise NotImplementedError(
+            f"align='{align}' not implemented. Please select either 'flex-end',"
+            " 'center' or 'flex-start'."
+        )
 
     if f"{key}_session_value" not in st.session_state:
         st.session_state[f"{key}_session_value"] = 0
@@ -61,7 +76,7 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
         single_submit=single_submit,
         align=align,
         key=key,
-        default={"_submit_value": 0}
+        default={"_submit_value": 0},
     )
 
     # only return a value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.
@@ -69,26 +84,40 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
         st.session_state[f"{key}_session_value"] = component_value.pop("_submit_value")
         return component_value
 
+
 if not _RELEASE:
     import openai
 
     with st.sidebar:
-        openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password", value=st.secrets.get("OPENAI_API_KEY"))
+        openai_api_key = st.text_input(
+            "OpenAI API Key",
+            key="chatbot_api_key",
+            type="password",
+            value=st.secrets.get("OPENAI_API_KEY"),
+        )
 
     st.title("💬 Chatbot")
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
             {"role": "assistant", "content": "How can I help you?"},
             {"role": "user", "content": "Tell me a joke"},
-            {"role": "assistant", "content": "Why did the chicken cross the road? To get to the other side!"},
+            {
+                "role": "assistant",
+                "content": (
+                    "Why did the chicken cross the road? To get to the other side!"
+                ),
+            },
             {"role": "user", "content": "Tell me another one"},
-            {"role": "assistant", "content": """
+            {
+                "role": "assistant",
+                "content": """
 Sure, here's a joke for you:
 
 Why don't scientists trust atoms?
 
 Because they make up everything!
-        """},
+        """,
+            },
         ]
 
     if prompt := st.chat_input():
@@ -99,7 +128,9 @@ Because they make up everything!
         openai.api_key = openai_api_key
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=st.session_state.messages
+        )
         msg = response.choices[0].message
         st.session_state.messages.append(msg)
 
@@ -112,7 +143,7 @@ Because they make up everything!
                 # single_submit=False,
                 # optional_text_label="Please provide some text",
                 # align="center",
-                key=f"feedback_{int(n/2)}"
+                key=f"feedback_{int(n/2)}",
             )
             if feedback:
                 st.write(feedback)

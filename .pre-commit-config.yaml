@@ -1,0 +1,14 @@
+repos:
+    - repo: https://github.com/psf/black
+      rev: 22.3.0
+      hooks:
+          - id: black
+            args: [--preview] # forces splitting of long strings to respect line length
+    - repo: https://github.com/pycqa/isort
+      rev: 5.11.5
+      hooks:
+          - id: isort
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: "v0.950"
+      hooks:
+          - id: mypy

@@ -10,7 +10,9 @@ setuptools.setup(
     version="0.0.9",
     author="Jeff Kayne",
     author_email="jeff.kayne@trubrics.com",
-    description="Streamlit component that allows you to collect user feedback in your apps",
+    description=(
+        "Streamlit component that allows you to collect user feedback in your apps"
+    ),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
