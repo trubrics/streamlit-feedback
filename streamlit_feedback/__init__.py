@@ -25,14 +25,14 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
     Parameters
     ----------
     feedback_type: str
-        The type of feedback ["thumbs", "faces"]
+        The type of feedback; "thumbs" or "faces".
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
     single_submit: bool
         Disables re-submission. This prevents users re-submitting feedback for a given prediction e.g. for a chatbot.
     align: str
-        Where to align the feedback component ["flex-end", "center", "flex-start"]
+        Where to align the feedback component; "flex-end", "center" or "flex-start".
     key: str or None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -50,8 +50,8 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
     if align not in ["flex-end", "center", "flex-start"]:
         raise NotImplementedError(f"align='{align}' not implemented. Please select either 'flex-end', 'center' or 'flex-start'.")
 
-    if "_feedback_submit_value" not in st.session_state:
-        st.session_state["_feedback_submit_value"] = 0
+    if f"{key}_session_value" not in st.session_state:
+        st.session_state[f"{key}_session_value"] = 0
 
     # "default" is a special argument that specifies the initial return
     # value of the component before the user has interacted with it.
@@ -61,12 +61,12 @@ def streamlit_feedback(feedback_type, optional_text_label=None, single_submit=Tr
         single_submit=single_submit,
         align=align,
         key=key,
-        default={"_submit_value": st.session_state["_feedback_submit_value"]}
+        default={"_submit_value": 0}
     )
 
-    # only return value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.
-    if component_value["_submit_value"] == st.session_state["_feedback_submit_value"] + 1:
-        st.session_state["_feedback_submit_value"] = component_value.pop("_submit_value")
+    # only return a value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.
+    if component_value["_submit_value"] == st.session_state[f"{key}_session_value"] + 1:
+        st.session_state[f"{key}_session_value"] = component_value.pop("_submit_value")
         return component_value
 
 if not _RELEASE:
@@ -81,6 +81,14 @@ if not _RELEASE:
             {"role": "assistant", "content": "How can I help you?"},
             {"role": "user", "content": "Tell me a joke"},
             {"role": "assistant", "content": "Why did the chicken cross the road? To get to the other side!"},
+            {"role": "user", "content": "Tell me another one"},
+            {"role": "assistant", "content": """
+Sure, here's a joke for you:
+
+Why don't scientists trust atoms?
+
+Because they make up everything!
+        """},
         ]
 
     if prompt := st.chat_input():
@@ -101,10 +109,17 @@ if not _RELEASE:
         if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
             feedback = streamlit_feedback(
                 feedback_type="thumbs",
-                optional_text_label="Please provide some text",
-                single_submit=False,
-                align="flex-end",
+                # single_submit=False,
+                # optional_text_label="Please provide some text",
+                # align="center",
                 key=f"feedback_{int(n/2)}"
             )
             if feedback:
                 st.write(feedback)
+
+    # feedback = streamlit_feedback(
+    #     feedback_type="faces",
+    #     optional_text_label="Please provide some text",
+    #     single_submit=False,
+    #     align="flex-end",
+    # )
