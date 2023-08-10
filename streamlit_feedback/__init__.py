@@ -85,6 +85,7 @@ def streamlit_feedback(
         return component_value
 
 
+# Example chatbot app with user feedback
 if not _RELEASE:
     import openai
 
@@ -147,10 +148,3 @@ Because they make up everything!
             )
             if feedback:
                 st.write(feedback)
-
-    # feedback = streamlit_feedback(
-    #     feedback_type="faces",
-    #     optional_text_label="Please provide some text",
-    #     single_submit=False,
-    #     align="flex-end",
-    # )
