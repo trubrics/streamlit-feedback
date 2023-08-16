@@ -10,7 +10,7 @@ const colors = {
 }
 
 export function ThumbsFeedback(props) {
-    const [thumbScore, setThumbScore] = useState(null);
+    const thumbScore = props.disableWithScore;
 
     let thumbUpColor = colors["colorGrey"];
     let thumbHoverUpColor = colors["colorUp"];
@@ -24,9 +24,6 @@ export function ThumbsFeedback(props) {
     }
 
     const handleThumbClick = (score) => {
-        if (props.singleSubmit) {
-            setThumbScore(score);
-        }
         props.submitFeedback(score, null);
     };
 

@@ -5,3 +5,4 @@ streamlit_feedback/frontend/build
 build/
 dist/
 .streamlit/secrets.toml
+__pycache__

@@ -16,6 +16,7 @@ class MyComponent extends StreamlitComponentBase {
           optionalTextLabel={this.props.args["optional_text_label"]}
           singleSubmit={this.props.args["single_submit"]}
           align={this.props.args["align"]}
+          disableWithScore={this.props.args["disable_with_score"]}
           default={this.props.args["default"]}
         />
       </div>
