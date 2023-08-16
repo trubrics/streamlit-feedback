@@ -75,12 +75,8 @@ export function ThumbsWithQualiFeedback(props) {
 
     const handleSubmission = () => {
         props.submitFeedback(thumbScore, inputText);
-        if (props.singleSubmit === false) {
-            setThumbScore(null);
-            setInputText(null);
-        } else {
-            setSubmitted(true);
-        }
+        setSubmitted(true);
+        setThumbScore(props.disableWithScore);
     };
 
     return (

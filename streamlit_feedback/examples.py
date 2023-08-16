@@ -123,7 +123,8 @@ def basic_app(streamlit_feedback):
         st.session_state["feedback_score"] = None
 
     feedback = streamlit_feedback(
-        feedback_type="thumbs",
+        feedback_type="faces",
+        optional_text_label="hello",
         disable_with_score=st.session_state["feedback_score"]["score"]
         if st.session_state["feedback_score"]
         else None,

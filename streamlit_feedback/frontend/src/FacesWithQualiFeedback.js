@@ -51,7 +51,7 @@ export function FacesWithQualiFeedback(props) {
             if (score === faceScore) {
                 return colors[score]
             } else {
-                if (submitted) {
+                if (score === props.disableWithScore) {
                     return "transparent"
                 } else {
                     return colors["grey"]
@@ -67,7 +67,7 @@ export function FacesWithQualiFeedback(props) {
             if (score === faceScore) {
                 return colors[score]
             } else {
-                if (submitted) {
+                if (score === props.disableWithScore) {
                     return "transparent"
                 } else {
                     return colors[score]
@@ -83,12 +83,6 @@ export function FacesWithQualiFeedback(props) {
     };
 
     const handleSubmission = () => {
-        if (props.singleSubmit === false) {
-            setFaceScore(null);
-            setInputText(null);
-        } else {
-            setSubmitted(true);
-        }
         props.submitFeedback(faceScore, inputText);
     };
 

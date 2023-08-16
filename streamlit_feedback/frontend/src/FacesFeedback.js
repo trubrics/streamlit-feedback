@@ -16,12 +16,9 @@ const colors = {
 }
 
 export function FacesFeedback(props) {
-    const [faceScore, setFaceScore] = useState(null);
+    const faceScore = props.disableWithScore
 
     const handleFaceClick = (score) => {
-        if (props.singleSubmit) {
-            setFaceScore(score);
-        }
         props.submitFeedback(score, null);
     };
 
