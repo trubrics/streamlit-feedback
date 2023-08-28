@@ -97,5 +97,5 @@ if not _RELEASE:
     from examples import basic_app, chatbot_thumbs_app, single_prediction_faces_app
 
     # chatbot_thumbs_app(streamlit_feedback=streamlit_feedback, debug=True)
-    # single_prediction_faces_app(streamlit_feedback)
-    basic_app(streamlit_feedback)
+    single_prediction_faces_app(streamlit_feedback)
+    # basic_app(streamlit_feedback)
