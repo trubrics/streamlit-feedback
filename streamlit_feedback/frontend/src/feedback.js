@@ -11,12 +11,12 @@ export function Feedback(props) {
     };
 
     if (props.feedbackType === "thumbs" && props.optionalTextLabel === null) {
-        return (<ThumbsFeedback submitFeedback={submitFeedback} align={props.align} disableWithScore={props.disableWithScore}/>)
+        return (<ThumbsFeedback submitFeedback={submitFeedback} align={props.align} disableWithScore={props.disableWithScore} disableOnSubmit={props.disableOnSubmit}/>)
     } else if (props.feedbackType === "thumbs" && props.optionalTextLabel !== null) {
-        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} align={props.align} disableWithScore={props.disableWithScore}/>)
+        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} align={props.align} disableWithScore={props.disableWithScore} disableOnSubmit={props.disableOnSubmit}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel === null) {
-        return (<FacesFeedback submitFeedback={submitFeedback} align={props.align} disableWithScore={props.disableWithScore}/>)
+        return (<FacesFeedback submitFeedback={submitFeedback} align={props.align} disableWithScore={props.disableWithScore} disableOnSubmit={props.disableOnSubmit}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel !== null) {
-        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} align={props.align} disableWithScore={props.disableWithScore}/>)
+        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} align={props.align} disableWithScore={props.disableWithScore} disableOnSubmit={props.disableOnSubmit}/>)
     }
 }

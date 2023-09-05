@@ -25,7 +25,11 @@ def streamlit_feedback(
     feedback_type,
     optional_text_label=None,
     align="flex-end",
+    disable_on_submit=True,
     disable_with_score=None,
+    on_submit=None,
+    args=[],
+    kwargs={},
     key=None,
 ):
     """Create a new instance of "streamlit_feedback".
@@ -52,6 +56,10 @@ def streamlit_feedback(
         The user response, with the feedback_type, score and text fields.
 
     """
+    if disable_on_submit and disable_with_score:
+        raise ValueError(
+            "`disable_with_score` and `disable_with_score` must be used independently."
+        )
 
     if feedback_type == "thumbs":
         possible_thumbs = ["👍", "👎"]
@@ -85,17 +93,24 @@ def streamlit_feedback(
         optional_text_label=optional_text_label,
         align=align,
         key=key,
+        disable_on_submit=disable_on_submit,
         disable_with_score=disable_with_score,
         default=None,
     )
 
+    if on_submit and component_value:
+        print(component_value)
+        on_submit(user_response=component_value, *args, **kwargs)
+
     return component_value
 
 
-# example chatbot app with user feedback
+# example apps with user feedback
 if not _RELEASE:
-    from examples import basic_app, chatbot_thumbs_app, single_prediction_faces_app
+    #     from examples import basic_app, chatbot_thumbs_app, single_prediction_faces_app
 
-    # chatbot_thumbs_app(streamlit_feedback=streamlit_feedback, debug=True)
-    single_prediction_faces_app(streamlit_feedback)
-    # basic_app(streamlit_feedback)
+    #     # chatbot_thumbs_app(streamlit_feedback=streamlit_feedback, debug=True)
+    #     # single_prediction_faces_app(streamlit_feedback)
+    #     basic_app(streamlit_feedback)
+    feedback = streamlit_feedback("faces", optional_text_label="text")
+    feedback
