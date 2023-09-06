@@ -6,20 +6,18 @@ import { FacesWithQualiFeedback } from "./FacesWithQualiFeedback";
 import { Streamlit } from "streamlit-component-lib"
 
 export function Feedback(props) {
-    const [submitValue, setSubmitValue] = useState(props.default["_submit_value"] + 1);
     const submitFeedback = (score, text) => {
-        Streamlit.setComponentValue({type: props.feedbackType, score, text, _submit_value: submitValue});
-        setSubmitValue(submitValue + 1)
+        Streamlit.setComponentValue({type: props.feedbackType, score, text});
     };
 
     if (props.feedbackType === "thumbs" && props.optionalTextLabel === null) {
-        return (<ThumbsFeedback submitFeedback={submitFeedback} singleSubmit={props.singleSubmit} align={props.align}/>)
+        return (<ThumbsFeedback submitFeedback={submitFeedback} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "thumbs" && props.optionalTextLabel !== null) {
-        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} singleSubmit={props.singleSubmit} align={props.align}/>)
+        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel === null) {
-        return (<FacesFeedback submitFeedback={submitFeedback} singleSubmit={props.singleSubmit} align={props.align}/>)
+        return (<FacesFeedback submitFeedback={submitFeedback} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel !== null) {
-        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} singleSubmit={props.singleSubmit} align={props.align}/>)
+        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "textbox") {
         return (<div />)
     }

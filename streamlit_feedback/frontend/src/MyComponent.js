@@ -14,7 +14,7 @@ class MyComponent extends StreamlitComponentBase {
         <Feedback
           feedbackType={this.props.args["feedback_type"]}
           optionalTextLabel={this.props.args["optional_text_label"]}
-          singleSubmit={this.props.args["single_submit"]}
+          disableWithScore={this.props.args["disable_with_score"]}
           align={this.props.args["align"]}
           default={this.props.args["default"]}
         />

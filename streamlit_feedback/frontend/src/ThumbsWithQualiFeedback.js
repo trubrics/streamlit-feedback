@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import InputBase from '@mui/material/InputBase';
@@ -31,6 +31,13 @@ export function ThumbsWithQualiFeedback(props) {
     const [thumbScore, setThumbScore] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [inputText, setInputText] = useState(null);
+
+    useEffect(() => {
+        if (props.disableWithScore){
+            setSubmitted(true);
+            setThumbScore(props.disableWithScore);
+        }
+    }, [props.disableWithScore])
 
     let thumbUpColor;
     let thumbHoverUpColor;
@@ -75,12 +82,7 @@ export function ThumbsWithQualiFeedback(props) {
 
     const handleSubmission = () => {
         props.submitFeedback(thumbScore, inputText);
-        if (props.singleSubmit === false) {
-            setThumbScore(null);
-            setInputText(null);
-        } else {
-            setSubmitted(true);
-        }
+        setSubmitted(true);
     };
 
     return (

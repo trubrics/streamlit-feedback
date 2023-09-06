@@ -25,7 +25,10 @@ else:
 def streamlit_feedback(
     feedback_type,
     optional_text_label=None,
-    single_submit=True,
+    disable_with_score=None,
+    on_submit=None,
+    args=[],
+    kwargs={},
     align="flex-end",
     key=None,
 ):
@@ -38,8 +41,6 @@ def streamlit_feedback(
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
-    single_submit: bool
-        Disables re-submission. This prevents users re-submitting feedback for a given prediction e.g. for a chatbot.
     align: str
         Where to align the feedback component; "flex-end", "center" or "flex-start".
     key: str or None
@@ -53,8 +54,21 @@ def streamlit_feedback(
         The user response, with the feedback_type, score and text fields.
 
     """
-
-    if feedback_type not in ["thumbs", "faces"]:
+    if feedback_type == "thumbs":
+        possible_thumbs = ["👍", "👎"]
+        if disable_with_score not in [None] + possible_thumbs:
+            raise ValueError(
+                f"disable_with_score='{disable_with_score}' not recognised. Please only"
+                f" use {possible_thumbs} for feedback_type='thumbs'."
+            )
+    elif feedback_type == "faces":
+        possible_faces = ["😞", "🙁", "😐", "🙂", "😀"]
+        if disable_with_score not in [None] + possible_faces:
+            raise ValueError(
+                f"disable_with_score='{disable_with_score}' not recognised. Please only"
+                f" use {possible_faces} for feedback_type='faces'."
+            )
+    else:
         raise NotImplementedError(
             f"feedback_type='{feedback_type}' not implemented. Please select either"
             " 'thumbs' or 'faces'."
@@ -65,86 +79,46 @@ def streamlit_feedback(
             " 'center' or 'flex-start'."
         )
 
-    if f"{key}_session_value" not in st.session_state:
-        st.session_state[f"{key}_session_value"] = 0
+    if key is None:
+        key = feedback_type
 
-    # "default" is a special argument that specifies the initial return
-    # value of the component before the user has interacted with it.
+    if f"feedback_submitted_{key}" not in st.session_state:
+        st.session_state[f"feedback_submitted_{key}"] = False
+
     component_value = _component_func(
         feedback_type=feedback_type,
         optional_text_label=optional_text_label,
-        single_submit=single_submit,
+        disable_with_score=disable_with_score,
         align=align,
         key=key,
-        default={"_submit_value": 0},
+        default=None,
     )
 
-    # only return a value when a new feedback is submitted. Otherwise return None, to refresh like a regular streamlit component.
-    if component_value["_submit_value"] == st.session_state[f"{key}_session_value"] + 1:
-        st.session_state[f"{key}_session_value"] = component_value.pop("_submit_value")
-        return component_value
+    if (
+        on_submit
+        and component_value
+        and st.session_state[f"feedback_submitted_{key}"] is False
+    ):
+        on_submit(component_value, *args, **kwargs)
+        st.session_state[f"feedback_submitted_{key}"] = True
+
+    return component_value
 
 
-# Example chatbot app with user feedback
 if not _RELEASE:
-    import openai
+    from examples import (
+        bare_bones_app,
+        basic_app,
+        chatbot_thumbs_app,
+        single_prediction_faces_app,
+    )
 
-    with st.sidebar:
-        openai_api_key = st.text_input(
-            "OpenAI API Key",
-            key="chatbot_api_key",
-            type="password",
-            value=st.secrets.get("OPENAI_API_KEY"),
-        )
+    page_names_to_funcs = {
+        "Chatbot": chatbot_thumbs_app,
+        "Faces": single_prediction_faces_app,
+        "Basic": basic_app,
+        "Bare bones": bare_bones_app,
+    }
 
-    st.title("💬 Chatbot")
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = [
-            {"role": "assistant", "content": "How can I help you?"},
-            {"role": "user", "content": "Tell me a joke"},
-            {
-                "role": "assistant",
-                "content": (
-                    "Why did the chicken cross the road? To get to the other side!"
-                ),
-            },
-            {"role": "user", "content": "Tell me another one"},
-            {
-                "role": "assistant",
-                "content": """
-Sure, here's a joke for you:
-
-Why don't scientists trust atoms?
-
-Because they make up everything!
-        """,
-            },
-        ]
-
-    if prompt := st.chat_input():
-        if not openai_api_key:
-            st.info("Please add your OpenAI API key to continue.")
-            st.stop()
-
-        openai.api_key = openai_api_key
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.chat_message("user").write(prompt)
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", messages=st.session_state.messages
-        )
-        msg = response.choices[0].message
-        st.session_state.messages.append(msg)
-
-    for n, msg in enumerate(st.session_state.messages):
-        st.chat_message(msg["role"]).write(msg["content"])
-
-        if msg["role"] == "assistant" and msg["content"] != "How can I help you?":
-            feedback = streamlit_feedback(
-                feedback_type="thumbs",
-                # single_submit=False,
-                # optional_text_label="Please provide some text",
-                # align="center",
-                key=f"feedback_{int(n/2)}",
-            )
-            if feedback:
-                st.write(feedback)
+    demo_name = st.sidebar.selectbox("Choose a demo", page_names_to_funcs.keys())
+    page_names_to_funcs[demo_name](streamlit_feedback=streamlit_feedback, debug=True)

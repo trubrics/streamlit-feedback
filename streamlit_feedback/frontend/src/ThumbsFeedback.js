@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import Stack from '@mui/material/Stack';
@@ -12,6 +12,12 @@ const colors = {
 export function ThumbsFeedback(props) {
     const [thumbScore, setThumbScore] = useState(null);
 
+    useEffect(() => {
+        if (props.disableWithScore){
+            setThumbScore(props.disableWithScore);
+        }
+    }, [props.disableWithScore])
+
     let thumbUpColor = colors["colorGrey"];
     let thumbHoverUpColor = colors["colorUp"];
     let thumbDownColor = colors["colorGrey"];
@@ -24,9 +30,7 @@ export function ThumbsFeedback(props) {
     }
 
     const handleThumbClick = (score) => {
-        if (props.singleSubmit) {
-            setThumbScore(score);
-        }
+        setThumbScore(score);
         props.submitFeedback(score, null);
     };
 

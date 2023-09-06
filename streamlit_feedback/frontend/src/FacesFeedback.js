@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
@@ -18,10 +18,14 @@ const colors = {
 export function FacesFeedback(props) {
     const [faceScore, setFaceScore] = useState(null);
 
-    const handleFaceClick = (score) => {
-        if (props.singleSubmit) {
-            setFaceScore(score);
+    useEffect(() => {
+        if (props.disableWithScore){
+            setFaceScore(props.disableWithScore);
         }
+    }, [props.disableWithScore])
+
+    const handleFaceClick = (score) => {
+        setFaceScore(score);
         props.submitFeedback(score, null);
     };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
@@ -37,6 +37,13 @@ export function FacesWithQualiFeedback(props) {
     const [submitted, setSubmitted] = useState(false);
     const [inputText, setInputText] = useState(null);
     const [faceScore, setFaceScore] = useState(null);
+
+    useEffect(() => {
+        if (props.disableWithScore){
+            setSubmitted(true);
+            setFaceScore(props.disableWithScore);
+        }
+    }, [props.disableWithScore])
 
     const handleFaceClick = (score) => {
         if (score === faceScore) {
@@ -83,12 +90,7 @@ export function FacesWithQualiFeedback(props) {
     };
 
     const handleSubmission = () => {
-        if (props.singleSubmit === false) {
-            setFaceScore(null);
-            setInputText(null);
-        } else {
-            setSubmitted(true);
-        }
+        setSubmitted(true);
         props.submitFeedback(faceScore, inputText);
     };
 
