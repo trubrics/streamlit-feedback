@@ -4,6 +4,7 @@ import streamlit as st
 
 def _submit_feedback(user_response, emoji=None):
     st.toast(f"Feedback submitted: {user_response}", icon=emoji)
+    return user_response.update({"some metadata": 123})
 
 
 def chatbot_thumbs_app(streamlit_feedback, debug=False):
@@ -152,7 +153,7 @@ def basic_app(streamlit_feedback, debug):
 
 
 def bare_bones_app(streamlit_feedback, debug):
-    feedback = streamlit_feedback(feedback_type="faces", disable_with_score="🙂")
+    feedback = streamlit_feedback(feedback_type="faces", on_submit=_submit_feedback)
 
     if feedback:
         st.write(":orange[Component output:]")

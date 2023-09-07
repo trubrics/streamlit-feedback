@@ -60,7 +60,7 @@ def streamlit_feedback(
     Returns
     -------
     dict
-        The user response, with the feedback_type, score and text fields.
+        The user response, with the feedback_type, score and text fields. If on_submit returns a value, this value will be returned by the component.
 
     """
     if feedback_type == "thumbs":
@@ -108,9 +108,10 @@ def streamlit_feedback(
         and component_value
         and st.session_state[f"feedback_submitted_{key}"] is False
     ):
-        on_submit(component_value, *args, **kwargs)
+        feedback = on_submit(component_value, *args, **kwargs)
         st.session_state[f"feedback_submitted_{key}"] = True
-
+        if feedback:
+            return feedback
     return component_value
 
 
