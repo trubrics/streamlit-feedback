@@ -157,3 +157,70 @@ def bare_bones_app(streamlit_feedback, debug):
     if feedback:
         st.write(":orange[Component output:]")
         st.write(feedback)
+
+
+def streaming_chatbot(streamlit_feedback, debug):
+
+    st.title("💬 Streaming Chatbot")
+
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+    if "openai_model" not in st.session_state:
+        st.session_state["openai_model"] = "gpt-3.5-turbo"
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+    if "feedback_key" not in st.session_state:
+        st.session_state.feedback_key = 0
+
+    feedback_kwargs = {
+        "feedback_type": "thumbs",
+        "optional_text_label": "Please provide extra information",
+        "on_submit": _submit_feedback,
+    }
+
+    for n, msg in enumerate(st.session_state.messages):
+        st.chat_message(msg["role"]).write(msg["content"])
+
+        if msg["role"] == "assistant" and n > 1:
+            feedback_key = f"feedback_{int(n/2)}"
+
+            if feedback_key not in st.session_state:
+                st.session_state[feedback_key] = None
+
+            disable_with_score = (
+                st.session_state[feedback_key].get("score")
+                if st.session_state[feedback_key]
+                else None
+            )
+            streamlit_feedback(
+                **feedback_kwargs,
+                key=feedback_key,
+                disable_with_score=disable_with_score,
+            )
+
+    if prompt := st.chat_input("What is up?"):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+
+            for response in openai.ChatCompletion.create(
+                model=st.session_state["openai_model"],
+                messages=[
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.messages
+                ],
+                stream=True,
+            ):
+                full_response += response.choices[0].delta.get("content", "")
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+        st.session_state.messages.append(
+            {"role": "assistant", "content": full_response}
+        )
+        streamlit_feedback(
+            **feedback_kwargs, key=f"feedback_{int(len(st.session_state.messages)/2)}"
+        )

@@ -27,7 +27,7 @@ def streamlit_feedback(
     optional_text_label=None,
     disable_with_score=None,
     on_submit=None,
-    args=[],
+    args=(),
     kwargs={},
     align="flex-end",
     key=None,
@@ -41,6 +41,15 @@ def streamlit_feedback(
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
+    disable_with_score: str
+        An optional score to disable the component. Must be a "thumbs" emoji or a "faces" emoji. Can be used to pass state from one component to another.
+    on_submit: callable
+        An optional callback invoked when feedback is submitted. This function must accept at least one argument, the feedback response dict,
+        allowing you to save the feedback to a database for example. Additional arguments can be specified using `args` and `kwargs`.
+    args: tuple
+        Additional positional arguments to pass to `on_submit`.
+    kwargs: dict
+        Additional keyword arguments to pass to `on_submit`.
     align: str
         Where to align the feedback component; "flex-end", "center" or "flex-start".
     key: str or None
@@ -111,10 +120,12 @@ if not _RELEASE:
         basic_app,
         chatbot_thumbs_app,
         single_prediction_faces_app,
+        streaming_chatbot,
     )
 
     page_names_to_funcs = {
         "Chatbot": chatbot_thumbs_app,
+        "Streaming chatbot": streaming_chatbot,
         "Faces": single_prediction_faces_app,
         "Basic": basic_app,
         "Bare bones": bare_bones_app,

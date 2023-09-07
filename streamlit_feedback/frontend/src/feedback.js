@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ThumbsFeedback } from "./ThumbsFeedback";
 import { ThumbsWithQualiFeedback } from "./ThumbsWithQualiFeedback";
 import { FacesFeedback } from "./FacesFeedback";
