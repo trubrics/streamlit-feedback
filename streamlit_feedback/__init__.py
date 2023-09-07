@@ -103,16 +103,21 @@ def streamlit_feedback(
         default=None,
     )
 
-    if (
-        on_submit
-        and component_value
-        and st.session_state[f"feedback_submitted_{key}"] is False
-    ):
-        feedback = on_submit(component_value, *args, **kwargs)
-        st.session_state[f"feedback_submitted_{key}"] = True
-        if feedback:
-            return feedback
-    return component_value
+    if st.session_state[f"feedback_submitted_{key}"] is True:
+        return None
+    else:
+        if component_value:
+            st.session_state[f"feedback_submitted_{key}"] = True
+            if on_submit:
+                feedback = on_submit(component_value, *args, **kwargs)
+                if feedback:
+                    return feedback
+                else:
+                    return component_value
+            else:
+                return component_value
+        else:
+            return None
 
 
 if not _RELEASE:

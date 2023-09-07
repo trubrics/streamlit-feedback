@@ -141,7 +141,7 @@ def basic_app(streamlit_feedback, debug):
 
     feedback = streamlit_feedback(
         feedback_type="faces",
-        on_submit=_submit_feedback,
+        # on_submit=_submit_feedback,
         key=f"feedback_{st.session_state.feedback_key}",
         optional_text_label="Please provide some more information",
         args=["✅"],
