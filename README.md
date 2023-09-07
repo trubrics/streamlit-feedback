@@ -14,7 +14,6 @@ pip install streamlit-feedback
 
     - [LLM Chat Completion](https://trubrics-llm-example-chatbot.streamlit.app/): A chatbot that queries OpenAI's API and allows users to leave feedback.
     - [LLM Completion](https://trubrics-llm-example.streamlit.app/): An LLM app that queries OpenAI's API and allows users to leave feedback on single text generations.
-    - [Titanic](https://trubrics-titanic-example.streamlit.app/): An app that allows users to give feedback on a classifier that predicts whether passengers will survive the titanic.
 
 - *Raise a PR with your cool feedback example here!*
 
@@ -36,11 +35,15 @@ It can be used with these parameters:
 def streamlit_feedback(
     feedback_type,
     optional_text_label=None,
-    single_submit=True,
+    disable_with_score=None,
+    on_submit=None,
+    args=(),
+    kwargs={},
     align="flex-end",
     key=None,
 ):
-    """
+    """Create a new instance of "streamlit_feedback".
+
     Parameters
     ----------
     feedback_type: str
@@ -48,8 +51,15 @@ def streamlit_feedback(
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
-    single_submit: bool
-        Disables re-submission. This prevents users re-submitting feedback for a given prediction e.g. for a chatbot.
+    disable_with_score: str
+        An optional score to disable the component. Must be a "thumbs" emoji or a "faces" emoji. Can be used to pass state from one component to another.
+    on_submit: callable
+        An optional callback invoked when feedback is submitted. This function must accept at least one argument, the feedback response dict,
+        allowing you to save the feedback to a database for example. Additional arguments can be specified using `args` and `kwargs`.
+    args: tuple
+        Additional positional arguments to pass to `on_submit`.
+    kwargs: dict
+        Additional keyword arguments to pass to `on_submit`.
     align: str
         Where to align the feedback component; "flex-end", "center" or "flex-start".
     key: str or None
@@ -61,10 +71,11 @@ def streamlit_feedback(
     -------
     dict
         The user response, with the feedback_type, score and text fields.
+
     """
 ```
 
-For a full example integrated in a chatbot, scroll down to the bottom of [this script](streamlit_feedback/__init__.py).
+For various code examples, see [here](streamlit_feedback/examples.py).
 
 Here are some more examples:
 
