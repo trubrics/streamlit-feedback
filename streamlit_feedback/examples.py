@@ -39,15 +39,9 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
             if feedback_key not in st.session_state:
                 st.session_state[feedback_key] = None
 
-            disable_with_score = (
-                st.session_state[feedback_key].get("score")
-                if st.session_state[feedback_key]
-                else None
-            )
             streamlit_feedback(
                 **feedback_kwargs,
                 key=feedback_key,
-                disable_with_score=disable_with_score,
             )
 
     if prompt := st.chat_input():
@@ -71,8 +65,7 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
                 {"role": "assistant", "content": st.session_state["response"]}
             )
             st.write(st.session_state["response"])
-
-        streamlit_feedback(**feedback_kwargs, key=f"feedback_{int(len(messages)/2)}")
+            st.experimental_rerun()
 
 
 def single_prediction_faces_app(streamlit_feedback, debug=False):
