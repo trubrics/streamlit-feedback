@@ -13,11 +13,11 @@ export function Feedback(props) {
     if (props.feedbackType === "thumbs" && props.optionalTextLabel === null) {
         return (<ThumbsFeedback submitFeedback={submitFeedback} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "thumbs" && props.optionalTextLabel !== null) {
-        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
+        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel === null) {
         return (<FacesFeedback submitFeedback={submitFeedback} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel !== null) {
-        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
+        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "textbox") {
         return (<div />)
     }

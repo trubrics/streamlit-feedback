@@ -95,7 +95,7 @@ export function FacesWithQualiFeedback(props) {
     };
 
     return (
-        <Box paddingY={0.5}>
+        <Box paddingY={0.5} height={props.maxTextLength * 2.5}>
             <Stack direction="row" spacing={1} justifyContent={props.align}>
                 <SentimentVeryDissatisfiedIcon
                 sx={{
@@ -147,7 +147,7 @@ export function FacesWithQualiFeedback(props) {
                     }, }}
                 onClick={() => submitted ? {} : handleFaceClick("😀")}
                 />
-                {submitted === false && faceScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={colors[faceScore]}/> : null}
+                {submitted === false && faceScore !== null ? <StyledCustomInput multiline={true} inputProps={{ maxLength: props.maxTextLength,  minRows:2 ,maxrows: props.maxTextLength / 5 }} onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={colors[faceScore]}/> : null}
                 {submitted === false && faceScore !== null ? <Button sx={{color: colors[faceScore]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
             </Stack>
         </Box>

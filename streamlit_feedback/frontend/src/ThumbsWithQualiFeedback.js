@@ -86,7 +86,7 @@ export function ThumbsWithQualiFeedback(props) {
     };
 
     return (
-        <Box paddingY={0.5}>
+        <Box paddingY={0.5} height={props.maxTextLength * 2.5}>
             <Stack direction="row" spacing={1} justifyContent={props.align}>
                 <ThumbUpOffAltIcon
                 sx={{
@@ -108,7 +108,7 @@ export function ThumbsWithQualiFeedback(props) {
                 }, }}
                 onClick={() => submitted ? {} : handleThumbClick("👎")}
                 />
-                {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}/> : null}
+                {submitted === false && thumbScore !== null ? <StyledCustomInput multiline={true} inputProps={{ maxLength: props.maxTextLength,  minRows:2, maxrows: props.maxTextLength / 5 }} onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}/> : null}
                 {submitted === false && thumbScore !== null ? <Button sx={{color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
             </Stack>
         </Box>
