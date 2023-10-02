@@ -4,11 +4,11 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import InputBase from '@mui/material/InputBase';
-import { styled } from '@mui/system';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import TextField from "@mui/material/TextField";
 
 const colors = {
     grey: "#c7d1d3",
@@ -19,21 +19,31 @@ const colors = {
     "😞": "#f44336"
 }
 
-const StyledCustomInput = styled(InputBase)(
-({ color }) => `
-    width: 60vw;
-    font-family: sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    padding: 0px 12px;
-    border-radius: 8px;
-    color: ${color};
-    border: 1px solid ${color};
-    background: transparent;
-    `
-);
+const TextFieldcolors = {
+    "😀": "success",
+    "🙂": "success",
+    "😐": "warning",
+    "🙁": "error",
+    "😞": "error"
+}
 
-export function FacesWithQualiFeedback(props) {
+
+const StyledTextField = styled(TextField)(
+    ({ color }) => `
+        width: 60vw;
+        font-family: sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        padding: 0px 12px;
+        border-radius: 8px;
+        color: ${color};
+        border: 1px solid ${color};
+        background: transparent;
+        `
+    );
+
+
+export function FacesWithQualiFeedbackMultiline(props) {
     const [submitted, setSubmitted] = useState(false);
     const [inputText, setInputText] = useState(null);
     const [faceScore, setFaceScore] = useState(null);
@@ -95,7 +105,7 @@ export function FacesWithQualiFeedback(props) {
     };
 
     return (
-        <Box paddingY={0.5}>
+        <Box paddingY={0.5} height={140} component="form" sx={{"& .MuiTextField-root": { m: 1, width: "50ch" } }} noValidate autoComplete="off">
             <Stack direction="row" spacing={1} justifyContent={props.align}>
                 <SentimentVeryDissatisfiedIcon
                 sx={{
@@ -147,7 +157,7 @@ export function FacesWithQualiFeedback(props) {
                     }, }}
                 onClick={() => submitted ? {} : handleFaceClick("😀")}
                 />
-                {submitted === false && faceScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={colors[faceScore]}/> : null}
+                {submitted === false && faceScore !== null ? <StyledTextField id="outlined-multiline-static" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={TextFieldcolors[faceScore]}/> : null}
                 {submitted === false && faceScore !== null ? <Button sx={{color: colors[faceScore]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
             </Stack>
         </Box>
