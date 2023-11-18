@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import InputBase from '@mui/material/InputBase';
-import { styled } from '@mui/system';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
+
+import { styled } from '@mui/material/styles';
+import TextField from "@mui/material/TextField";
 
 const colors = {
     colorGrey: "#c7d1d3",
@@ -13,8 +15,13 @@ const colors = {
     colorDown: "#f44336"
 }
 
+const TextFieldcolors = {
+    colorUp: "success",
+    colorDown: "error"
+}
+
 const StyledCustomInput = styled(InputBase)(
-({ color }) => `
+    ({ color }) => `
     width: 70vw;
     font-family: sans-serif;
     font-size: 0.875rem;
@@ -27,13 +34,27 @@ const StyledCustomInput = styled(InputBase)(
     `
 );
 
+const StyledTextField = styled(TextField)(
+    ({ color }) => `
+        width: 60vw;
+        font-family: sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        padding: 0px 12px;
+        border-radius: 8px;
+        color: ${color};
+        border: 1px solid ${color};
+        background: transparent;
+        `
+);
+
 export function ThumbsWithQualiFeedback(props) {
     const [thumbScore, setThumbScore] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [inputText, setInputText] = useState(null);
 
     useEffect(() => {
-        if (props.disableWithScore){
+        if (props.disableWithScore) {
             setSubmitted(true);
             setThumbScore(props.disableWithScore);
         }
@@ -85,32 +106,68 @@ export function ThumbsWithQualiFeedback(props) {
         setSubmitted(true);
     };
 
-    return (
-        <Box paddingY={0.5}>
-            <Stack direction="row" spacing={1} justifyContent={props.align}>
-                <ThumbUpOffAltIcon
-                sx={{
-                    fontSize: 28,
-                    color: thumbUpColor,
-                    '&:hover': {
-                        cursor: submitted ? null : "pointer",
-                        color: thumbHoverUpColor,
-                    }, }}
-                onClick={() => submitted ? {} : handleThumbClick("👍")}
-                />
-                <ThumbDownOffAltIcon
-                sx={{
-                    fontSize: 28,
-                    color: thumbDownColor,
-                    '&:hover': {
-                        cursor: submitted ? null : "pointer",
-                        color: thumbHoverDownColor,
-                }, }}
-                onClick={() => submitted ? {} : handleThumbClick("👎")}
-                />
-                {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}/> : null}
-                {submitted === false && thumbScore !== null ? <Button sx={{color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
-            </Stack>
-        </Box>
+    if (props.maxTextLength != null) {
+        return (
+            <Box paddingY={0.5} height={140} component="form" sx={{ "& .MuiTextField-root": { m: 1, width: "50ch" } }} noValidate autoComplete="off">
+                <Stack direction="row" spacing={1} justifyContent={props.align}>
+                    <ThumbUpOffAltIcon
+                        sx={{
+                            fontSize: 28,
+                            color: thumbUpColor,
+                            '&:hover': {
+                                cursor: submitted ? null : "pointer",
+                                color: thumbHoverUpColor,
+                            },
+                        }}
+                        onClick={() => submitted ? {} : handleThumbClick("👍")}
+                    />
+                    <ThumbDownOffAltIcon
+                        sx={{
+                            fontSize: 28,
+                            color: thumbDownColor,
+                            '&:hover': {
+                                cursor: submitted ? null : "pointer",
+                                color: thumbHoverDownColor,
+                            },
+                        }}
+                        onClick={() => submitted ? {} : handleThumbClick("👎")}
+                    />
+                    {submitted === false && thumbScore !== null ? <StyledTextField id="outlined-multiline-static" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
+                </Stack>
+            </Box>
         )
     }
+    else {
+        return (
+            <Box paddingY={0.5}>
+                <Stack direction="row" spacing={1} justifyContent={props.align}>
+                    <ThumbUpOffAltIcon
+                        sx={{
+                            fontSize: 28,
+                            color: thumbUpColor,
+                            '&:hover': {
+                                cursor: submitted ? null : "pointer",
+                                color: thumbHoverUpColor,
+                            },
+                        }}
+                        onClick={() => submitted ? {} : handleThumbClick("👍")}
+                    />
+                    <ThumbDownOffAltIcon
+                        sx={{
+                            fontSize: 28,
+                            color: thumbDownColor,
+                            '&:hover': {
+                                cursor: submitted ? null : "pointer",
+                                color: thumbHoverDownColor,
+                            },
+                        }}
+                        onClick={() => submitted ? {} : handleThumbClick("👎")}
+                    />
+                    {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
+                </Stack>
+            </Box>
+        )
+    }
+}

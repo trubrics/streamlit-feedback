@@ -17,13 +17,13 @@ export function Feedback(props) {
     } else if (props.feedbackType === "thumbs" && props.optionalTextLabel !== null && props.maxTextLength === null) {
         return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "thumbs" && props.optionalTextLabel !== null && props.maxTextLength) {
-        return (<ThumbsWithQualiFeedbackMultiline submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
+        return (<ThumbsWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel === null && props.maxTextLength === null) {
         return (<FacesFeedback submitFeedback={submitFeedback} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel !== null && props.maxTextLength === null) {
         return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "faces" && props.optionalTextLabel !== null && props.maxTextLength) {
-        return (<FacesWithQualiFeedbackMultiline submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
+        return (<FacesWithQualiFeedback submitFeedback={submitFeedback} optionalTextLabel={props.optionalTextLabel} maxTextLength={props.maxTextLength}  disableWithScore={props.disableWithScore} align={props.align}/>)
     } else if (props.feedbackType === "textbox") {
         return (<div />)
     }
