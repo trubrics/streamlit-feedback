@@ -14,7 +14,6 @@ class MyComponent extends StreamlitComponentBase {
         <Feedback
           feedbackType={this.props.args["feedback_type"]}
           optionalTextLabel={this.props.args["optional_text_label"]}
-          multiLineText={this.props.args["multiline_text"]}
           maxTextLength={this.props.args["max_text_length"]}
           disableWithScore={this.props.args["disable_with_score"]}
           align={this.props.args["align"]}
