@@ -1,10 +1,8 @@
 import React from "react";
 import { ThumbsFeedback } from "./ThumbsFeedback";
 import { ThumbsWithQualiFeedback } from "./ThumbsWithQualiFeedback";
-import { ThumbsWithQualiFeedbackMultiline } from "./ThumbsWithQualiFeedbackMultiline";
 import { FacesFeedback } from "./FacesFeedback";
 import { FacesWithQualiFeedback } from "./FacesWithQualiFeedback";
-import { FacesWithQualiFeedbackMultiline } from "./FacesWithQualiFeedbackMultiline";
 import { Streamlit } from "streamlit-component-lib"
 
 export function Feedback(props) {

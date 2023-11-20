@@ -24,11 +24,6 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
         ]
 
     messages = st.session_state.messages
-    feedback_kwargs = {
-        "feedback_type": "thumbs",
-        "optional_text_label": "Please provide extra information",
-        "on_submit": _submit_feedback,
-    }
 
     for n, msg in enumerate(messages):
         st.chat_message(msg["role"]).write(msg["content"])
@@ -40,7 +35,9 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
                 st.session_state[feedback_key] = None
 
             streamlit_feedback(
-                **feedback_kwargs,
+                feedback_type="thumbs",
+                optional_text_label="Please provide extra information",
+                on_submit=_submit_feedback,
                 key=feedback_key,
             )
 
@@ -65,7 +62,7 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
                 {"role": "assistant", "content": st.session_state["response"]}
             )
             st.write(st.session_state["response"])
-            st.experimental_rerun()
+            st.rerun()
 
 
 def single_prediction_faces_app(streamlit_feedback, debug=False):
@@ -132,13 +129,25 @@ def basic_app(streamlit_feedback, debug):
     if st.button("Refresh feedback component"):
         st.session_state.feedback_key += 1  # overwrite feedback component
 
-    feedback = streamlit_feedback(
-        feedback_type="faces",
-        # on_submit=_submit_feedback,
-        key=f"feedback_{st.session_state.feedback_key}",
-        optional_text_label="Please provide some more information",
-        args=["✅"],
-    )
+    multiline = st.toggle("Multiline", value=False)
+
+    if multiline:
+        feedback = streamlit_feedback(
+            feedback_type="faces",
+            # on_submit=_submit_feedback,
+            key=f"feedback_{st.session_state.feedback_key}",
+            optional_text_label="Please provide some more information",
+            max_text_length=500,
+            args=["✅"],
+        )
+    else:
+        feedback = streamlit_feedback(
+            feedback_type="faces",
+            # on_submit=_submit_feedback,
+            key=f"feedback_{st.session_state.feedback_key}",
+            optional_text_label="Please provide some more information",
+            args=["✅"],
+        )
 
     if feedback:
         st.write(":orange[Component output:]")
