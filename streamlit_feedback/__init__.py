@@ -25,6 +25,7 @@ else:
 def streamlit_feedback(
     feedback_type,
     optional_text_label=None,
+    max_text_length=None,
     disable_with_score=None,
     on_submit=None,
     args=(),
@@ -41,6 +42,8 @@ def streamlit_feedback(
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
+    max_text_length: int or None
+        Defaults to None. If set, enables the multi-line functionality and determines the maximum characters the textbox allows. Else, displays the default one-line textbox.
     disable_with_score: str
         An optional score to disable the component. Must be a "thumbs" emoji or a "faces" emoji. Can be used to pass state from one component to another.
     on_submit: callable
@@ -97,6 +100,7 @@ def streamlit_feedback(
     component_value = _component_func(
         feedback_type=feedback_type,
         optional_text_label=optional_text_label,
+        max_text_length=max_text_length,
         disable_with_score=disable_with_score,
         align=align,
         key=key,
@@ -121,13 +125,24 @@ def streamlit_feedback(
 
 
 if not _RELEASE:
-    from examples import (
-        bare_bones_app,
-        basic_app,
-        chatbot_thumbs_app,
-        single_prediction_faces_app,
-        streaming_chatbot,
-    )
+
+    # Added a try-except to make setting up the development environment for this project easier.
+    try:
+        from examples import (
+            bare_bones_app,
+            basic_app,
+            chatbot_thumbs_app,
+            single_prediction_faces_app,
+            streaming_chatbot,
+        )
+    except:
+        from .examples import (
+            bare_bones_app,
+            basic_app,
+            chatbot_thumbs_app,
+            single_prediction_faces_app,
+            streaming_chatbot,
+        )
 
     page_names_to_funcs = {
         "Chatbot": chatbot_thumbs_app,
