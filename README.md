@@ -35,6 +35,7 @@ It can be used with these parameters:
 def streamlit_feedback(
     feedback_type,
     optional_text_label=None,
+    max_text_length=None,
     disable_with_score=None,
     on_submit=None,
     args=(),
@@ -51,6 +52,8 @@ def streamlit_feedback(
     optional_text_label: str or None
         An optional label to add as a placeholder to the textbox.
         If None, the "thumbs" or "faces" will not be accompanied by textual feedback.
+    max_text_length: int or None
+        Defaults to None. If set, enables the multi-line functionality and determines the maximum characters the textbox allows. Else, displays the default one-line textbox.
     disable_with_score: str
         An optional score to disable the component. Must be a "thumbs" emoji or a "faces" emoji. Can be used to pass state from one component to another.
     on_submit: callable
@@ -70,7 +73,7 @@ def streamlit_feedback(
     Returns
     -------
     dict
-        The user response, with the feedback_type, score and text fields.
+        The user response, with the feedback_type, score and text fields. If on_submit returns a value, this value will be returned by the component.
 
     """
 ```

@@ -90,6 +90,10 @@ def streamlit_feedback(
             f"align='{align}' not implemented. Please select either 'flex-end',"
             " 'center' or 'flex-start'."
         )
+    if max_text_length and optional_text_label is None:
+        raise NotImplementedError(
+            "max_text_length requires optional_text_label to be set."
+        )
 
     if key is None:
         key = feedback_type
