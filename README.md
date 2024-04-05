@@ -1,25 +1,8 @@
 # streamlit-feedback
 
-Here is a Streamlit component that allows you to **collect user feedback** in your apps.
+A Streamlit component to add **user feedback** to your apps.
 
-## Install
-
-```sh
-pip install streamlit-feedback
-```
-
-## Examples
-
-- [Trubrics](https://github.com/trubrics/trubrics-sdk), enabling AI teams to collect, analyse and manage user feedback on their models:
-
-    - [LLM Chat Completion](https://trubrics-llm-example-chatbot.streamlit.app/): A chatbot that queries OpenAI's API and allows users to leave feedback.
-    - [LLM Completion](https://trubrics-llm-example.streamlit.app/): An LLM app that queries OpenAI's API and allows users to leave feedback on single text generations.
-
-- *Raise a PR with your cool feedback example here!*
-
-## Usage
-
-This component holds a single function:
+<img src="./assets/thumbs.png"  width="600">
 
 ```python
 from streamlit_feedback import streamlit_feedback
@@ -27,8 +10,21 @@ feedback = streamlit_feedback(feedback_type="thumbs")
 feedback
 ```
 
-<img src="./assets/thumbs.png"  width="600">
+## Examples
 
+[Here](streamlit_feedback/examples.py) are many examples of how the feedback component can be added to your app. Each function represents a different app.
+
+> [!IMPORTANT]  
+> The `streamlit_feedback` component triggers a page reload when submitted, this is how streamlit components work. The `on_submit` function is only then run when your app reaches the `streamlit-feedback()` call on the rerun.
+
+
+## Install
+
+```sh
+pip install streamlit-feedback
+```
+
+## Usage
 It can be used with these parameters:
 
 ```python
@@ -77,8 +73,6 @@ def streamlit_feedback(
 
     """
 ```
-
-For various code examples, see [here](streamlit_feedback/examples.py).
 
 Here are some more examples:
 
