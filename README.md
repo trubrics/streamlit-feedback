@@ -119,3 +119,21 @@ feedback
 ```
 
 <img src="./assets/thumbsstart.png"  width="600">
+
+## Contributing
+
+We welcome all contributions. To test & run the streamlit-feedback component locally, you will need to run both the frontend javascript component and the streamlit server.
+
+1. Run the component frontend
+
+```
+cd streamlit_feedback/frontend && npm run start
+```
+
+2. Run the server
+
+```python
+streamlit run streamlit_feedback/__init__.py
+```
+
+See more details in [CONTRIBUTING.md](CONTRIBUTING.md).
