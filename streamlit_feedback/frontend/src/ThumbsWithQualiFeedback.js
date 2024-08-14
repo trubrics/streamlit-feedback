@@ -132,7 +132,8 @@ export function ThumbsWithQualiFeedback(props) {
                         }}
                         onClick={() => submitted ? {} : handleThumbClick("👎")}
                     />
-                    {submitted === false && thumbScore !== null ? <StyledTextField id="outlined-multiline-static" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore !== null && props.reviewOnPositive === true? <StyledTextField id="outlined-multiline-static-all" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore === "👎" && !props.reviewOnPositive ? <StyledTextField id="outlined-multiline-static-neg" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]} /> : null}
                     {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
                 </Stack>
             </Box>
@@ -164,7 +165,8 @@ export function ThumbsWithQualiFeedback(props) {
                         }}
                         onClick={() => submitted ? {} : handleThumbClick("👎")}
                     />
-                    {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore !== null && props.reviewOnPositive === true ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]} /> : null}
+                    {submitted === false && thumbScore === "👎" && !props.reviewOnPositive ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]} /> : null}
                     {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
                 </Stack>
             </Box>

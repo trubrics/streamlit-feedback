@@ -6,3 +6,4 @@ build/
 dist/
 .streamlit/secrets.toml
 __pycache__/
+.streamlit/

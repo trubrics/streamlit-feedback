@@ -37,6 +37,7 @@ def chatbot_thumbs_app(streamlit_feedback, debug=False):
             streamlit_feedback(
                 feedback_type="thumbs",
                 optional_text_label="Please provide extra information",
+                review_on_positive=False,
                 on_submit=_submit_feedback,
                 key=feedback_key,
             )
@@ -111,6 +112,7 @@ def single_prediction_faces_app(streamlit_feedback, debug=False):
 
         streamlit_feedback(
             feedback_type="faces",
+            review_on_positive=False,
             optional_text_label="Please provide extra information",
             align="flex-start",
             on_submit=_submit_feedback,

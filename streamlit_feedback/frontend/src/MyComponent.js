@@ -13,6 +13,7 @@ class MyComponent extends StreamlitComponentBase {
       <div>
         <Feedback
           feedbackType={this.props.args["feedback_type"]}
+          reviewOnPositive={this.props.args["review_on_positive"]}
           optionalTextLabel={this.props.args["optional_text_label"]}
           maxTextLength={this.props.args["max_text_length"]}
           disableWithScore={this.props.args["disable_with_score"]}
